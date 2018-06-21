@@ -12,4 +12,5 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /grogar
 
 FROM alpine
 COPY --from=build /grogar /
+EXPOSE 8000
 ENTRYPOINT [ "/grogar" ]
