@@ -10,7 +10,7 @@ WORKDIR /go/src/github.com/tqoliver/grogar/
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /grogar
 
-FROM alpine
+FROM scratch
 COPY --from=build /grogar /
 EXPOSE 8000
 ENTRYPOINT [ "/grogar" ]
