@@ -10,6 +10,7 @@ WORKDIR /go/src/github.com/tqoliver/grogar/
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /grogar
 
+# scratch is the smallest available container size
 FROM scratch
 COPY --from=build /grogar /
 EXPOSE 8000
