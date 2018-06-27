@@ -12,7 +12,10 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /grogar
 
 # scratch is the smallest available container size
 FROM alpine
-RUN apk update && apk add curl && apk add mysql-client && apk add sudo
+RUN apk update && apk add curl && apk add mysql-client && apk add sudo \
+        && addgroup -g 1001 -S exampleapp \
+        && adduser -u 1001 -D -S -G exampleapp exampleapp
 COPY --from=build /grogar /
 EXPOSE 8000
+USER exampleapp
 ENTRYPOINT [ "/grogar" ]
