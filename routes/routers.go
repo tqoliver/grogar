@@ -3,7 +3,7 @@ package routes
 import (
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/tqoliver/grogar/handlers"
+	"github.com/tqoliver/grogar/helpers"
 	"log"
 	"net/http"
 	"time"
@@ -40,27 +40,50 @@ func NewRouter() *mux.Router {
 
 //Index function
 func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "You've reached the home page of Grogar the App")
+	t := time.Now()
+	day := t.Format("2006 January _2 03:04:05PM MST")
+	fmt.Fprintf(w, "<h1>Hello Demo Crowd<br>You've reached the home page of test App.<br>The current time is: "+day+"</h1>")
 }
 
 //EmployeeDb handle the employee function
 func EmployeeDb(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, handlers.EmployeeDb(10))
+	s, err := helpers.GetEmployees()
+	if err != nil {
+		fmt.Fprintf(w, fmt.Sprintf("Encountered an error %g", err))
+		return
+	}
+	fmt.Fprintf(w, s)
 }
 
 //SystemInfo handle the system info function
 func SystemInfo(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, handlers.SystemInfo())
+	s, err := helpers.GetSystemInfo()
+	if err != nil {
+		fmt.Fprintf(w, fmt.Sprintf("Error encountered: %s", err))
+		return
+	}
+	fmt.Fprintf(w, s)
 }
 
 //DvdRentalDb handle the DVD Rental Info
 func DvdRentalDb(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, handlers.DvdRentalDB())
+	s, err := helpers.GetRentals()
+	if err != nil {
+		fmt.Fprintf(w, fmt.Sprintf("Error encountered: %s", err))
+		return
+	}
+
+	fmt.Fprintf(w, s)
 }
 
 //DvdInfo handle the DVD Info Requests
 func DvdInfo(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, handlers.DvdInfo())
+	s, err := helpers.GetFilms()
+	if err != nil {
+		fmt.Fprintf(w, fmt.Sprintf("Error encountered: %s", err))
+		return
+	}
+	fmt.Fprintf(w, s)
 }
 
 var routes = Routes{
@@ -74,35 +97,35 @@ var routes = Routes{
 	Route{
 		"Home",
 		"GET",
-		"/home",
+		"/v1/home",
 		Index,
 	},
 
 	Route{
 		"Employee List",
 		"GET",
-		"/employee/list",
+		"/v1/employee/list",
 		EmployeeDb,
 	},
 
 	Route{
 		"System/Container Info",
 		"GET",
-		"/info/system",
+		"/v1/info/system",
 		SystemInfo,
 	},
 
 	Route{
 		"DVD Rental",
 		"GET",
-		"/info/dvd/rental",
+		"/v1/info/dvd/rental",
 		DvdRentalDb,
 	},
 
 	Route{
 		"DVD Films",
 		"GET",
-		"/info/dvd/films",
+		"/v1/info/dvd/films",
 		DvdInfo,
 	},
 }
