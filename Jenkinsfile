@@ -17,7 +17,7 @@ openshiftDeploy(namespace: 'ccdemoqa', deploymentConfig: 'serenity-api')
 openshiftScale(namespace: 'ccdemoqa', deploymentConfig: 'serenity-api', replicaCount: '2')
 stage 'Deploy to Production'
 input 'Promote QA Image to Production?'
-openshiftTag(namespace: 'ccdemoqa', soruceStream: 'serenity-api', sourceTag: 'latest', destinationNamespace: 'ccdemoprod', destinationStream: 'serenity-api', destionationTag: 'promote-prod')
+openshiftTag(namespace: 'ccdemoqa', sourceStream: 'serenity-api', sourceTag: 'latest', destinationNamespace: 'ccdemoprod', destinationStream: 'serenity-api', destionationTag: 'promote-prod')
 openshiftDeploy(namespace: 'ccdemoprod', deploymentConfig: 'serenity-api')
 openshiftScale(namespace: 'ccdemoprod', deploymentConfig: 'serenity-api', replicaCount: '2')
 }
