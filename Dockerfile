@@ -1,4 +1,4 @@
-FROM docker-registry.default.svc:5000/ccdemoqa/golang:1.10.3-alpine3.7 AS build
+FROM docker.io/golang:1.10.3-alpine3.7 AS build
 
 # Install required tools for the project (both to build and to run). This is the requirements section
 # Run `trash --file vendor.yaml` to get application dependencies
