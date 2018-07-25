@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: image-build
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: ​grogar-runtime:latest 
+  source:
+    dockerfile: |-
+      FROM ​scratch 
+      COPY ​ ​ /grogar /
+​  ​ EXPOSE 8000
+​  ​ USER 1001
+​  ​ ENTRYPOINT [ "/grogar" ]
+    images:
+    - from: 
+        kind: ImageStreamTag
+        name:   ​grogar-artifact:latest
+      paths: 
+      - sourcePath: / ​grogar 
+        destinationDir: "."
+  strategy:
+    dockerStrategy:
+      from: 
+        kind: ImageStreamTag
+        name: ​ scratch 
+  triggers:
+  - imageChange: {}
+    type: ImageChange
