@@ -10,7 +10,7 @@ oc create is grogar-artifact
 
 ### Stage 1 Build: Create a build configuration for the builder
 
-oc new-build https://github.com/cricci82/grogar --name=builder --to=grogar-artifact:latest
+oc new-build https://github.com/tqoliver/grogar --name=builder --to=grogar-artifact:latest
 
 ### Stage 2 Build: Create a build configuration for the runtime
 
